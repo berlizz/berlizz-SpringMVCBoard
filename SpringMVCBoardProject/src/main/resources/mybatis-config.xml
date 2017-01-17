@@ -5,4 +5,8 @@
 	
 <configuration>
 
+	<typeAliases>
+		<package name="com.berlizz.domain"/>
+	</typeAliases>
+
 </configuration>
