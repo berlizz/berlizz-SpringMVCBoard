@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.berlizz.domain.BoardVO;
+import com.berlizz.domain.Criteria;
+import com.berlizz.domain.PageMaker;
 import com.berlizz.service.BoardService;
 
 @Controller
@@ -39,11 +41,23 @@ public class BoardController {
 		return "redirect:/board/listAll";
 	}
 	
-	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public void listAll(Model model) throws Exception {
-		logger.info("listAll()");
+	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
+	public void listAll(Criteria cri, Model model) throws Exception {
+		logger.info("listCri()");
 		
-		model.addAttribute("list", service.listAll());
+		model.addAttribute("list", service.listCriteria(cri));
+	}
+	
+	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+	public void listPage(Criteria cri, Model model) throws Exception {
+		logger.info("listPage()");
+		
+		model.addAttribute("list", service.listCriteria(cri));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCountCriteria(cri));
+		model.addAttribute("pageMaker", pageMaker);		
 	}
 	
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
@@ -63,14 +77,14 @@ public class BoardController {
 		return "redirect:/board/listAll";
 	}
 	
-	@RequestMapping(value = "modify", method = RequestMethod.GET)
+	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public void modifyGET(@RequestParam("bno") int bno, Model model) throws Exception {
 		logger.info("modifyGET()");
 		
 		model.addAttribute(service.read(bno));
 	}
 	
-	@RequestMapping(value = "modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modifyPOST(BoardVO vo, RedirectAttributes rttr) throws Exception{
 		logger.info("modifyPOST()");
 		
@@ -79,4 +93,5 @@ public class BoardController {
 		
 		return "redirect:/board/listAll";
 	}
+	
 }
