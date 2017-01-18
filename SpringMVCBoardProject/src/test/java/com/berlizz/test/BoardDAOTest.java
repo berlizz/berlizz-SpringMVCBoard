@@ -48,16 +48,6 @@ public class BoardDAOTest {
 		dao.delete(1);
 	}*/
 	
-	/*@Test
-	public void testListPage() throws Exception {
-		int page = 3;
-		List<BoardVO> list = dao.listPage(page);
-		
-		for(BoardVO vo : list) {
-			logger.info(vo.getBno() + " : " + vo.getTitle());
-		}
-	}*/
-	
 	@Test
 	public void testListCriteria() throws Exception {
 		Criteria cri = new Criteria();

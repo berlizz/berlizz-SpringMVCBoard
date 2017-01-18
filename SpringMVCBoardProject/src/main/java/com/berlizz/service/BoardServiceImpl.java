@@ -35,11 +35,6 @@ public class BoardServiceImpl implements BoardService {
 	public void remove(Integer bno) throws Exception {
 		dao.delete(bno);
 	}
-
-	@Override
-	public List<BoardVO> listAll() throws Exception {
-		return dao.listAll();
-	}
 	
 	@Override
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception {

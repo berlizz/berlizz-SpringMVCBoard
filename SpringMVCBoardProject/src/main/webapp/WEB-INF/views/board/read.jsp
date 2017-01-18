@@ -15,6 +15,8 @@
 					
 					<form role="form" method="post">
 						<input type="hidden" name="bno" value="${boardVO.bno}">
+						<input type="hidden" name="page" value="${cri.page}">
+						<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
 					</form>
 					
 					<div class="box-body">
@@ -64,7 +66,9 @@
 		});
 		
 		$(".btn-primary").on("click", function() {
-			self.location = "/board/listAll";
+			formObj.attr("method", "get");
+			formObj.attr("action", "/board/listPage");
+			formObj.submit();
 		});
 	});
 </script>
