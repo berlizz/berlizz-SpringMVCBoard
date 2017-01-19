@@ -3,7 +3,7 @@ package com.berlizz.persistence;
 import java.util.List;
 
 import com.berlizz.domain.BoardVO;
-import com.berlizz.domain.Criteria;
+import com.berlizz.domain.SearchCriteria;
 
 public interface BoardDAO {
 
@@ -15,7 +15,7 @@ public interface BoardDAO {
 	
 	public void delete(Integer bno) throws Exception;
 	
-	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
+	public List<BoardVO> listCriteria(SearchCriteria cri) throws Exception;
 	
-	public int countPaging(Criteria cri) throws Exception;
+	public int countPaging(SearchCriteria cri) throws Exception;
 }

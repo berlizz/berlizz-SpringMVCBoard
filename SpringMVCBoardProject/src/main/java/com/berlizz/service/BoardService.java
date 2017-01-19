@@ -3,7 +3,7 @@ package com.berlizz.service;
 import java.util.List;
 
 import com.berlizz.domain.BoardVO;
-import com.berlizz.domain.Criteria;
+import com.berlizz.domain.SearchCriteria;
 
 public interface BoardService {
 
@@ -15,7 +15,7 @@ public interface BoardService {
 	
 	public void remove(Integer bno) throws Exception;
 	
-	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
+	public List<BoardVO> listCriteria(SearchCriteria cri) throws Exception;
 	
-	public int listCountCriteria(Criteria cri) throws Exception;
+	public int listCountCriteria(SearchCriteria cri) throws Exception;
 }

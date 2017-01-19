@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.berlizz.domain.BoardVO;
-import com.berlizz.domain.Criteria;
+import com.berlizz.domain.SearchCriteria;
 import com.berlizz.persistence.BoardDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +48,8 @@ public class BoardDAOTest {
 		dao.delete(1);
 	}*/
 	
-	@Test
+	//BoardDAO listCriteria 파라미터를 SearchCriteria로 수정 전 테스트
+	/*@Test
 	public void testListCriteria() throws Exception {
 		Criteria cri = new Criteria();
 		cri.setPage(3);
@@ -58,5 +59,21 @@ public class BoardDAOTest {
 		for(BoardVO vo : list) {
 			logger.info(vo.getBno() + " : " + vo.getTitle());
 		}
+	}*/
+	
+	//SearchCriteria로 수정 후 테스트
+	@Test
+	public void testDynamic1() throws Exception {
+		SearchCriteria cri = new SearchCriteria();
+		cri.setPage(1);
+		cri.setKeyword("modify");
+		//cri.setSearchType("t");
+		
+		List<BoardVO> list = dao.listCriteria(cri);
+		for(BoardVO vo : list) {
+			logger.info(vo.getBno() + " : " + vo.getTitle());
+		}
+		
+		logger.info("count : " + dao.countPaging(cri));
 	}
 }
