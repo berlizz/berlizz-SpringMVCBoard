@@ -1,6 +1,8 @@
 package com.berlizz.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.berlizz.domain.Criteria;
+import com.berlizz.domain.PageMaker;
 import com.berlizz.domain.ReplyVO;
 import com.berlizz.service.ReplyService;
 
@@ -86,6 +90,35 @@ public class ReplyController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value = "/{bno}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno, @PathVariable("page") Integer page) {
+		logger.info("listPage()");
+		
+		ResponseEntity<Map<String, Object>> entity = null;
+		try {
+			Criteria cri = new Criteria();
+			cri.setPage(page);
+			
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			
+			List<ReplyVO> list = service.listReplyPage(bno, cri);
+			Map<String, Object> map = new HashMap<>();
+			map.put("list", list);
+			
+			int replyCount = service.count(bno);
+			pageMaker.setTotalCount(replyCount);
+			map.put("pageMaker", pageMaker);
+			
+			entity = new ResponseEntity<>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		return entity;
