@@ -1,6 +1,8 @@
 package com.berlizz.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -47,6 +49,20 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int countPaging(SearchCriteria cri) throws Exception {
 		return session.selectOne(namespace + ".countPaging", cri);
+	}
+	
+	@Override
+	public void updateReplyCnt(Integer bno, int amount) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("amount", amount);
+		
+		session.update(namespace + ".updateReplyCnt", map);
+	}
+	
+	@Override
+	public void updateViewCnt(Integer bno) throws Exception {
+		session.update(namespace + ".updateViewCnt", bno);
 	}
 
 }

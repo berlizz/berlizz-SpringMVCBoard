@@ -74,7 +74,8 @@
 			</div>
 			
 			<ul class="timeline">
-				<li class="time-label" id="repliesDiv"><span class="bg-green"><i class="fa fa-comment-o"></i>&nbsp;Replies List</span></li>
+				<li class="time-label" id="repliesDiv"><span class="bg-green"><i class="fa fa-comment-o"></i>&nbsp;Replies List
+					<small id="replycntSmall">[${boardVO.replycnt}]</small></span></li>
 			</ul>
 			
 			<div class="text-center">
@@ -88,12 +89,12 @@
 	
 	
 	<!-- modal -->
-	<div id="modifyModal" class="modal fade" role="dialog">
+	<div id="modifyModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="close">&times;</button>
 					<h4 class="modal-title"></h4>
 				</div>
 				
@@ -187,9 +188,24 @@
 		$.getJSON(pageInfo, function(data) {
 			printData(data.list, $("#repliesDiv"), $("#template"));
 			printPaging(data.pageMaker, $(".pagination"));
+			
+			$("#modifyModal").modal("hide");
+			$("#replycntSmall").html("[" + dta.pageMaker.totalCount + "]");
 		});
 	}
 	
+	$("#repliesDiv").on("click", function() {
+		if($(".timeline li").length > 1) {
+			return;
+		}
+
+		getPage("/replies/" + bno + "/1");
+	});
+	
+</script>
+
+<!-- reply paging -->
+<script>
 	function printPaging(pageMaker, target) {
 		var str = "";
 		
@@ -199,7 +215,7 @@
 		
 		for(var i = pageMaker.startPage; i <= pageMaker.endPage; i++) {
 			var strClass = pageMaker.cri.page == i? 'class=active' : '';
-			str += "<li" + strClass + "><a href='" + i + "'>" + i + "</a></li>";
+			str += "<li " + strClass + "><a href='" + i + "'>" + i + "</a></li>";
 		}
 		
 		if(pageMaker.next) {
@@ -209,12 +225,12 @@
 		target.html(str);
 	}
 	
-	$("#repliesDiv").on("click", function() {
-		if($(".timeline li").length > 1) {
-			return;
-		}
-
-		getPage("/replies/" + bno + "/1");
+	$(".pagination").on("click", "li a", function(event) {
+		event.preventDefault();
+		
+		replyPage = $(this).attr("href");
+		
+		getPage("/replies/" + bno + "/" + replyPage);
 	});
 </script>
 
