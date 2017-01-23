@@ -94,4 +94,26 @@
 		where bno = #{bno}
 	</update>
 	
+	<insert id="addAttach">
+		insert into tbl_attach(fullName, bno)
+		values (#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+		select fullName
+		from tbl_attach
+		where bno = #{bno}
+		order by regdate
+	</select>
+	
+	<delete id="deleteAttach">
+		delete from tbl_attach
+		where bno = #{bno}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into tbl_attach(fullName, bno) 
+		values(#{fullName}, #{bno})
+	</insert>
+	
 </mapper>

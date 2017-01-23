@@ -18,4 +18,6 @@ public interface BoardService {
 	public List<BoardVO> listCriteria(SearchCriteria cri) throws Exception;
 	
 	public int listCountCriteria(SearchCriteria cri) throws Exception;
+	
+	public List<String> getAttach(Integer bno) throws Exception;
 }
