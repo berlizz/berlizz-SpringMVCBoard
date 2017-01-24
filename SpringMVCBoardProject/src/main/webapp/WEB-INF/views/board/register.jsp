@@ -117,6 +117,27 @@
 		});
 	});
 	
+	$(".uploadedList").on("click", ".delbtn", function(event) {
+		event.preventDefault();
+
+		var that = $(this)
+		
+		$.ajax({
+			url : "/upload/deleteFile",
+			data : {
+				fileName : that.attr("href")
+			},
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				if(data == "deleted") {
+					that.closest("li").remove();
+					alert("첨부파일이 삭제 되었습니다.");
+				}
+			}
+		});
+	});
+	
 </script>
 
 <!-- form 태그 submit 처리 -->

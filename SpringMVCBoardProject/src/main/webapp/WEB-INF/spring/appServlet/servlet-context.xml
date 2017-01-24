@@ -29,6 +29,20 @@
 		<beans:constructor-arg value="C:\\temp\\java\\uploadPath"></beans:constructor-arg>
 	</beans:bean>
 	
+	<!-- login interceptor -->
+	<beans:bean id="loginInterceptor" class="com.berlizz.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="authInterceptor" class="com.berlizz.interceptor.AuthInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/loginPost"></mapping>
+			<beans:ref bean="loginInterceptor"></beans:ref>
+		</interceptor>
+		<interceptor>
+			<mapping path="/board/register"></mapping>
+			<beans:ref bean="authInterceptor"></beans:ref>
+		</interceptor>
+	</interceptors>
+	
 	
 	<context:component-scan base-package="com.berlizz.controller" />
 	
