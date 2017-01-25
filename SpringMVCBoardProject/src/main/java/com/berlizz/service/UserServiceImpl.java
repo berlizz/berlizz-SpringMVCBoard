@@ -1,5 +1,7 @@
 package com.berlizz.service;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +19,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserVO login(LoginDTO dto) throws Exception {
 		return dao.login(dto);
+	}
+	
+	@Override
+	public void keepLogin(String userid, String sessionKey, Date next) throws Exception {
+		dao.keepLogin(userid, sessionKey, next);
+	}
+	
+	@Override
+	public UserVO checkLoginBefore(String sessionKey) {
+		return dao.checkUserWithSessionKey(sessionKey);
 	}
 
 }

@@ -53,9 +53,11 @@
 					
 					<ul class="mailbox-attachments clearfix uploadedList">
 					</ul>
-							
-					<button type="submit" class="btn btn-warning">Modify</button>
-					<button type="submit" class="btn btn-danger" id="readPageDelBtn">Remove</button>
+					
+					<c:if test="${login.username == boardVO.writer}">
+						<button type="submit" class="btn btn-warning">Modify</button>
+						<button type="submit" class="btn btn-danger" id="readPageDelBtn">Remove</button>
+					</c:if>
 					<button type="submit" class="btn btn-primary" id="listPageBtn">List Page</button>
 				</div>
 					
@@ -73,18 +75,26 @@
 					<h3 class="box-title">Add New Reply</h3>
 				</div>
 				
-				<div class="box-body">
-					<label for="newReplyWriter">Writer</label>
-					<input type="text" class="form-control" placeholder="User ID" id="newReplyWriter">
-					<label for="newReplyText">ReplyText</label>
-					<input type="text" class="form-control" placeholder="Reply Text" id="newReplyText">
-				</div>
-				
-				<div class="box-footer">
-					<button type="submit" class="btn btn-primary" id="replyAddBtn">Add Reply</button>
-				</div>
+				<c:if test="${not empty login}">
+					<div class="box-body">
+						<label for="newReplyWriter">Writer</label>
+						<input type="text" class="form-control" id="newReplyWriter" value="${login.username}" readonly style="cursor:default">
+						<label for="newReplyText">ReplyText</label>
+						<input type="text" class="form-control" placeholder="Reply Text" id="newReplyText">
+					</div>
+						
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary" id="replyAddBtn">Add Reply</button>
+					</div>
+				</c:if>
+				<c:if test="${empty login}">
+					<div class="box-body">
+						<div><a href="javascript:goLogin();">Sign up</a></div>
+					</div>
+				</c:if>
 				
 			</div>
+			
 			
 			<ul class="timeline">
 				<li class="time-label" id="repliesDiv"><span class="bg-green"><i class="fa fa-comment-o"></i>&nbsp;Replies List
@@ -186,7 +196,9 @@
 			<h3 class="timeline-header"><strong>{{rno}}</strong> -{{replyer}}</h3>
 			<div class="timeline-body">{{replytext}}</div>
 			<div class="timeline-footer">
+			{{#eqReplyer replyer}}
 				<a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modifyModal">Modify</a>
+			{{/eqReplyer}}
 			</div>
 		</div>
 	</li>
@@ -222,7 +234,7 @@
 			printPaging(data.pageMaker, $(".pagination"));
 			
 			$("#modifyModal").modal("hide");
-			$("#replycntSmall").html("[" + dta.pageMaker.totalCount + "]");
+			$("#replycntSmall").html("[" + data.pageMaker.totalCount + "]");
 		});
 	}
 	
@@ -232,6 +244,15 @@
 		}
 
 		getPage("/replies/" + bno + "/1");
+	});
+	
+	Handlebars.registerHelper("eqReplyer", function(replyer, block) {
+		var accum = "";
+		if(replyer == "${login.username}") {
+			accum += block.fn();
+		}
+		
+		return accum;
 	});
 	
 </script>
@@ -292,7 +313,7 @@
 				if(result == "success") {
 					alert("등록 되었습니다.");
 					getPage("/replies/" + bno + "/1");
-					replyerObj.val("");
+					// replyerObj.val("");
 					replytextObj.val("");
 				}
 			}
@@ -417,4 +438,10 @@
 	$("#popup_img").on("click", function() {
 		$(".popup").hide("slow");
 	});
+</script>
+
+<script>
+	function goLogin() {
+		self.location = "/user/login";
+	}
 </script>

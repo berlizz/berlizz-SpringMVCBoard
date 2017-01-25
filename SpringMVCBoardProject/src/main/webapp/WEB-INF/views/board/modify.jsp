@@ -37,7 +37,7 @@
 						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Writer</label>
-							<input type="text" name="writer" class="form-control" value="${boardVO.writer}">
+							<input type="text" name="writer" class="form-control" value="${boardVO.writer}" readonly style="cursor:default">
 						</div>
 					</div>	
 				</form>

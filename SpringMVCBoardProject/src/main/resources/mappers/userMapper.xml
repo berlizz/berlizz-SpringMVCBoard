@@ -10,5 +10,17 @@
 		from tbl_member
 		where userid = #{userid} and userpw = #{userpw}
 	</select>
+	
+	<update id="keepLogin">
+		update tbl_member
+		set sessionkey = #{sessionKey}, sessionlimit = #{next}
+		where userid = #{userid}
+	</update>
+	
+	<select id="checkUserWithSessionKey" resultType="UserVO">
+		select *
+		from tbl_member
+		where sessionkey = #{sessionkey}
+	</select>
 
 </mapper>
