@@ -4,27 +4,30 @@
 <%@ include file="../include/header.jsp" %>
 
 
+
+
 <section class="content">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="box">
+			<div class="login-box">
 				
-				<div class="box-header with-border">
+				<div class="login-box-header with-border">
 					
-					<h3 class="box-title">LOGIN PAGE</h3>
+					<h3 class="login-box-title">SIGN IN PAGE</h3>
 					
 				</div>
 				
 				
-				<div class="box-body with-border">
+				<div class="login-box-body with-border">
+					<p class="login-box-message">Sign in your session</p>
 					
 					<form action="/user/loginPost" method="post">
 						<div class="form-group has-feedback">
-							<input type="text" name="userid" class="form-control" placeholder="User ID">
+							<input type="text" id="userid"name="userid" class="form-control" placeholder="User ID">
 							<span class="glyphicon glyphicon-user form-control-feedback"></span>
 						</div>
 						<div class="form-group has-feedback">
-							<input type="password" name="userpw" class="form-control" placeholder="Password">
+							<input type="password" id="userpw" name="userpw" class="form-control" placeholder="Password">
 							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 						</div>
 						<div class="form-group">
@@ -36,7 +39,7 @@
 								</div>
 							</div>
 							<div class="col-xs-4">
-								<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+								<button type="submit" id="signinBtn" class="btn btn-primary btn-block btn-flat">Sign In</button>
 							</div>
 						</div>
 					</form>
@@ -44,7 +47,7 @@
 				</div>
 				
 				
-				<div class="box-footer with-border">
+				<div class="login-box-footer with-border">
 				</div>
 				
 				
@@ -55,3 +58,44 @@
 
 
 <%@ include file="../include/footer.jsp" %>
+
+
+<!-- iCheck -->
+<script src="/resources/icheck/icheck.min.js" type="text/javascript"></script>
+<link href="/resources/icheck/blue.css" rel="stylesheet" type="text/css" />
+<script>
+/* icheck */
+$(document).ready(function() {
+	$("input").iCheck({
+		checkboxClass : "icheckbox_flat-blue",
+		radioClass : "iradio_flat-blue"
+	});
+});
+
+</script>
+
+<script>
+	var result = "${result}";
+
+	if(result == "fail") {
+		alert("ID or password do not match");
+	}	
+	
+	$("#signinBtn").on("click", function(event) {
+		if($("#userid").val() == "") {
+			alert("Input ID");
+			$("#userid").focus();
+			event.preventDefault();
+			
+			return;
+		}
+		
+		if($("#userpw").val() == "") {
+			alert("Input password");
+			$("#userpw").focus();
+			event.preventDefault();
+			
+			return;
+		}
+	});
+</script>

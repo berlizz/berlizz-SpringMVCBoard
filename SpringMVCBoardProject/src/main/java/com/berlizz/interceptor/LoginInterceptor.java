@@ -19,8 +19,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		//logger.info("postHandle()");
-		System.out.println("LoginInterceptor.class : postHandle()");
+		logger.info("postHandle()");
 		
 		HttpSession session = request.getSession();
 		
@@ -40,13 +39,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			Object destination = session.getAttribute("destination");
 			response.sendRedirect(destination != null? (String)destination : "/");			
 		}
+		
+		modelAndView.setViewName("/user/login");
+		modelAndView.addObject("result", "fail");
 	}
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//logger.info("preHandle()");
-		System.out.println("LoginInterceptor.class : preHandle()");
+		logger.info("preHandle()");
 		
 		HttpSession session = request.getSession();
 		if(session.getAttribute(LOGIN) != null) {

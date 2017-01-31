@@ -14,6 +14,9 @@
 	<logger name="com.berlizz.controller">
 		<level value="info" />
 	</logger>
+	<logger name="com.berlizz.interceptor">
+		<level value="info" />
+	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

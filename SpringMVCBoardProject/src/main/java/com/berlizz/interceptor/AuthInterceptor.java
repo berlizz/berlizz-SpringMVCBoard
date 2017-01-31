@@ -25,11 +25,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//logger.info("preHandle()");
-		System.out.println("AuthInterceptor : preHandle()");
+		logger.info("preHandle()");
 		
 		HttpSession session = request.getSession();
 		if(session.getAttribute(LOGIN) == null) {
+			saveDestination(request);
+			
 			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
 			if(loginCookie != null) {
 				UserVO userVO = service.checkLoginBefore(loginCookie.getValue());
@@ -40,7 +41,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				}
 			}
 			
-			saveDestination(request);
 			response.sendRedirect("/user/login");
 			
 			return false;
@@ -50,8 +50,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	}
 	
 	private void saveDestination(HttpServletRequest request) {
-		//logger.info("saveDestination()");
-		System.out.println("AuthInterceptor : preHandle()");
+		logger.info("saveDestination()");
 		
 		String uri = request.getRequestURI();
 		String query = request.getQueryString();

@@ -10,42 +10,67 @@
 		<div class="col-md-12">
 			<div class="box">
 				<div class="box-header with-border">
+					<div>
+						<h3 class="box-title">LIST PAGE</h3>
+					</div>
 					
-					<h3 class="box-title">LIST PAGE</h3>
-					
+					<div class="text-right">				
+						<c:if test="${login.username != null}">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									<i class="fa fa-user-circle" aria-hidden="true"></i> ${login.username} 
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="/">Home</a></li>
+									<li class="divider"></li>
+									<li><a href="/user/logout" role="menuitem">Sign out</a></li>
+								</ul>
+							</div>
+						</c:if>
+					</div>
+				
 				</div>
 					
 				
 				<div class="box-body">
-				
-					<select name="searchType">
-						<option value="n"
-							<c:out value="${cri.searchType == null? 'selected' : ''}" />>---</option>
-						<option value="t"
-							<c:out value="${cri.searchType eq 't'? 'selected' : ''}" />>Title</option>
-						<option value="w"
-							<c:out value="${cri.searchType eq 'w'? 'selected' : ''}" />>Writer</option>
-						<option value="c"
-							<c:out value="${cri.searchType eq 'c'? 'selected' : ''}" />>Content</option>
-						<option value="tc"
-							<c:out value="${cri.searchType eq 'tc'? 'selected' : ''}" />>Title Or Content</option>
-						<option value="cw"
-							<c:out value="${cri.searchType eq 'cw'? 'selected' : ''}" />>Content Or Writer</option>
-						<option value="tcw"
-							<c:out value="${cri.searchType eq 'tcw'? 'selected' : ''}" />>Title Or Content Or Writer</option>
-					</select>
-					
-					<input type="text" name="keyword" id="keywordInput" value="${cri.keyword}">
-					<button id="searchBtn">Search</button>
-					<button id="newBtn">New Board</button>
-					
-					<table class="table table-bordered">
-						<tr>
+					<div class="form-inline">
+						<select name="searchType" id="searchType" class="form-control">
+							<option value="n"
+								<c:out value="${cri.searchType == null? 'selected' : ''}" />>Search Type</option>
+							<option value="t"
+								<c:out value="${cri.searchType eq 't'? 'selected' : ''}" />>Title</option>
+							<option value="w"
+								<c:out value="${cri.searchType eq 'w'? 'selected' : ''}" />>Writer</option>
+							<option value="c"
+								<c:out value="${cri.searchType eq 'c'? 'selected' : ''}" />>Content</option>
+							<option value="tc"
+								<c:out value="${cri.searchType eq 'tc'? 'selected' : ''}" />>Title Or Content</option>
+							<option value="cw"
+								<c:out value="${cri.searchType eq 'cw'? 'selected' : ''}" />>Content Or Writer</option>
+							<option value="tcw"
+								<c:out value="${cri.searchType eq 'tcw'? 'selected' : ''}" />>Title Or Content Or Writer</option>
+						</select>
+						
+						<input type="text" name="keyword" id="keywordInput" class="form-control" placeholder="Search Keyword" value="${cri.keyword}">
+						<button id="searchBtn" class="btn btn-primary">Search</button>
+						<button id="newBtn" class="btn btn-primary">New Board</button>	
+					</div>
+						
+					<table class="table table-hover table-bordered">
+						<!-- <tr>
 							<th style="width: 10px">BNO</th>
 							<th>TITLE</th>
-							<th>WRITER</th>
-							<th>REGDATE</th>
+							<th style="width: 150px">WRITER</th>
+							<th style="width: 150px">REGDATE</th>
 							<th style="width: 40px">VIEWCNT</th>
+						</tr> -->
+						<tr>
+							<th class="col-xs-1">BNO</th>
+							<th class="col-xs-6">TITLE</th>
+							<th class="col-xs-2">WRITER</th>
+							<th class="col-xs-2">REGDATE</th>
+							<th class="col-xs-1">VIEWCNT</th>
 						</tr>
 						<c:forEach items="${list}" var="boardVO">
 							<tr>
@@ -67,7 +92,7 @@
 					<div class="text-center">
 						<ul class="pagination">
 							<c:if test="${pageMaker.prev}">
-								<li><a href="list?page=${pageMaker.startPage - 1}&perPageNum=${pageMaker.cri.perPageNum}">&laquo;</a></li>
+								<li><a href="list${pageMaker.makeSearch(pageMaker.startPage - 1)}">&laquo;</a></li>
 							</c:if>
 							
 							<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
@@ -78,7 +103,7 @@
 							</c:forEach>
 							
 							<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-								<li><a href="list?page=${pageMaker.endPage + 1}&perPageNum=${pageMaker.cri.perPageNum}">&raquo;</a></li>
+								<li><a href="list${pageMaker.makeSearch(pageMaker.endPage + 1)}">&raquo;</a></li>
 							</c:if>
 						</ul>
 					</div>
@@ -98,18 +123,38 @@
 	var result = "${result}";
 	
 	if(result == "success") {
-		alert("처리가 완료 되었습니다.");
+		alert("Completed");
 	}
 </script>
 
 <script>
 	$(document).ready(function() {
+		$(".dropdown-toggle").dropdown();
 		
 		$("#searchBtn").on("click", function() {
-			self.location = "list${pageMaker.makeQuery(1)}&searchType="
-				+ $("select option:selected").val() 
-				+ "&keyword="
-				+ $("#keywordInput").val();
+			if($("#searchType").val() == "n") {
+				alert("Select Search Type");
+				$("#searchType").focus();
+				
+				return;
+				
+			} else if($("#keywordInput").val() == "") {
+				alert("Input search keyword");
+				$("#keywordInput").focus();
+				
+				return;
+				
+			} else {
+				self.location = "list${pageMaker.makeQuery(1)}&searchType="
+					+ $("select option:selected").val() 
+					+ "&keyword="
+					+ $("#keywordInput").val();	
+			}
+		});
+		
+		$("#newBtn").on("click", function() {
+			self.location = "/board/register";
 		});
 	});
+	
 </script>
