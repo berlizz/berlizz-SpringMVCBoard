@@ -43,6 +43,7 @@
 							</ul>
 						
 							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="button" class="btn btn-danger">Cancel</button>
 						</div>
 					</form>
 					
@@ -54,9 +55,9 @@
 </section>
 
 
-<%@ include file="../include/footer.jsp" %>
 
 
+<!-- 파일업로드 창 처리 -->
 <style>
 	.fileDrop {
 		width : 80%;
@@ -71,7 +72,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- handlebars.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
-<!-- handlebars template -->
+<!-- 파일 업로드 처리 handlebars template -->
 <script id="template" type="text/x-handlebars-template">
 <li>
 	<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
@@ -84,75 +85,10 @@
 
 <!-- 파일 업로드 화면처리 -->
 <script src="/resources/js/upload.js"></script>
-<script>
-	var template = Handlebars.compile($("#template").html());
-	
-	$(".fileDrop").on("dragenter dragover", function(event) {
-		event.preventDefault();
-	});
-	
-	$(".fileDrop").on("drop", function(event) {
-		event.preventDefault();
-		
-		var files = event.originalEvent.dataTransfer.files;
-		
-		var file = files[0];
-		
-		var formData = new FormData();
-		formData.append("file", file);
-		
-		$.ajax({
-			url : "/upload/uploadAjax",
-			data : formData,
-			dataType : "text",
-			processData : false,
-			contentType : false,
-			type : "post",
-			success : function(data) {
-				var fileInfo = getFileInfo(data);
-				var html = template(fileInfo);
-				
-				$(".uploadedList").append(html);
-			}
-		});
-	});
-	
-	$(".uploadedList").on("click", ".delbtn", function(event) {
-		event.preventDefault();
 
-		var that = $(this)
-		
-		$.ajax({
-			url : "/upload/deleteFile",
-			data : {
-				fileName : that.attr("href")
-			},
-			dataType : "text",
-			type : "post",
-			success : function(data) {
-				if(data == "deleted") {
-					that.closest("li").remove();
-					alert("첨부파일이 삭제 되었습니다.");
-				}
-			}
-		});
-	});
-	
-</script>
+<!-- register.js -->
+<script src="/resources/js/register.js"></script>
 
-<!-- form 태그 submit 처리 -->
-<script>
-	$("#registerForm").submit(function(event) {
-		event.preventDefault();
-		
-		var that = $(this);
-		var str = "";
-		
-		$(".uploadedList .delbtn").each(function(index) {
-			str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "'>";
-		});
-		
-		that.append(str);
-		that.get(0).submit();
-	});
-</script>
+ 
+ 
+ <%@ include file="../include/footer.jsp" %>

@@ -63,39 +63,9 @@
 <!-- iCheck -->
 <script src="/resources/icheck/icheck.min.js" type="text/javascript"></script>
 <link href="/resources/icheck/blue.css" rel="stylesheet" type="text/css" />
+
+<!-- login.js -->
 <script>
-/* icheck */
-$(document).ready(function() {
-	$("input").iCheck({
-		checkboxClass : "icheckbox_flat-blue",
-		radioClass : "iradio_flat-blue"
-	});
-});
-
+var result = "${result}";
 </script>
-
-<script>
-	var result = "${result}";
-
-	if(result == "fail") {
-		alert("ID or password do not match");
-	}	
-	
-	$("#signinBtn").on("click", function(event) {
-		if($("#userid").val() == "") {
-			alert("Input ID");
-			$("#userid").focus();
-			event.preventDefault();
-			
-			return;
-		}
-		
-		if($("#userpw").val() == "") {
-			alert("Input password");
-			$("#userpw").focus();
-			event.preventDefault();
-			
-			return;
-		}
-	});
-</script>
+<script src="/resources/js/login.js" type="text/javascript"></script>

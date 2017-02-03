@@ -55,19 +55,14 @@
 </section>
 
 
-<%@ include file="../include/footer.jsp" %>
-
+<!-- modify.js -->
+<script src="/resources/js/modify.js"></script>
 <script>
-	$(document).ready(function() {
-		var formObj = $("form[role='form']");
-				
-		$(".btn-primary").on("click", function() {
-			formObj.submit();
-		});
-		
-		$(".btn-warning").on("click", function() {
-			self.location = "/board/list?page=${cri.page}&perPageNum=${cri.perPageNum}"
-								+ "&searchType=${cri.searchType}&keyword=${cri.keyword}";
-		});
-	});
+	var page = ${cri.page};
+	var perPageNum = ${cri.perPageNum};
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
 </script>
+
+
+<%@ include file="../include/footer.jsp" %>

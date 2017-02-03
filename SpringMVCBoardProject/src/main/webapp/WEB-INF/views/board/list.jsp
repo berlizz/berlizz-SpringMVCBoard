@@ -125,9 +125,14 @@
 	if(result == "success") {
 		alert("Completed");
 	}
+	
+	var makeQuery = "${pageMaker.makeQuery(1)}";
 </script>
 
-<script>
+<!-- list.js -->
+<script src="/resources/js/list.js"></script>
+
+<!-- <script>
 	$(document).ready(function() {
 		$(".dropdown-toggle").dropdown();
 		
@@ -157,4 +162,4 @@
 		});
 	});
 	
-</script>
+</script> -->
