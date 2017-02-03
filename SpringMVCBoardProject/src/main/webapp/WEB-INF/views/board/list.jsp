@@ -58,13 +58,6 @@
 					</div>
 						
 					<table class="table table-hover table-bordered">
-						<!-- <tr>
-							<th style="width: 10px">BNO</th>
-							<th>TITLE</th>
-							<th style="width: 150px">WRITER</th>
-							<th style="width: 150px">REGDATE</th>
-							<th style="width: 40px">VIEWCNT</th>
-						</tr> -->
 						<tr>
 							<th class="col-xs-1">BNO</th>
 							<th class="col-xs-6">TITLE</th>
@@ -117,8 +110,6 @@
 </section>
 
 
-<%@ include file="../include/footer.jsp" %>
-
 <script>
 	var result = "${result}";
 	
@@ -132,34 +123,6 @@
 <!-- list.js -->
 <script src="/resources/js/list.js"></script>
 
-<!-- <script>
-	$(document).ready(function() {
-		$(".dropdown-toggle").dropdown();
-		
-		$("#searchBtn").on("click", function() {
-			if($("#searchType").val() == "n") {
-				alert("Select Search Type");
-				$("#searchType").focus();
-				
-				return;
-				
-			} else if($("#keywordInput").val() == "") {
-				alert("Input search keyword");
-				$("#keywordInput").focus();
-				
-				return;
-				
-			} else {
-				self.location = "list${pageMaker.makeQuery(1)}&searchType="
-					+ $("select option:selected").val() 
-					+ "&keyword="
-					+ $("#keywordInput").val();	
-			}
-		});
-		
-		$("#newBtn").on("click", function() {
-			self.location = "/board/register";
-		});
-	});
-	
-</script> -->
+
+
+<%@ include file="../include/footer.jsp" %>
